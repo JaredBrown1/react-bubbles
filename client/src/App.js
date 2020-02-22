@@ -19,10 +19,6 @@ function App() {
           <Route path="/login" component={Login} />
           <Route component={Login} />
         </Switch>
-        {/* 
-          Build a PrivateRoute component that will 
-          display BubblePage when you're authenticated 
-        */}
       </div>
     </Router>
   );
