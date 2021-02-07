@@ -4,7 +4,7 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
-  code: { hex: "" }
+  code: { hex: "" },
 };
 
 const ColorList = ({ colors, updateColors }) => {
@@ -12,19 +12,19 @@ const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
-  const editColor = color => {
+  const editColor = (color) => {
     setEditing(true);
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
+  const saveEdit = (e) => {
     e.preventDefault();
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
     axiosWithAuth()
       .put("/api/colors/" + colorToEdit.id, colorToEdit)
-      .then(res => {
+      .then((res) => {
         let updatedColors = [];
         for (let i = 0; i < colors.length; i++) {
           if (colors[i].id === colors.colorToEdit.id) {
@@ -36,32 +36,32 @@ const ColorList = ({ colors, updateColors }) => {
 
         updateColors(updatedColors);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error editing", err);
       });
   };
 
-  const deleteColor = color => {
+  const deleteColor = (color) => {
     // make a delete request to delete this color
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${color.id}`)
-      .then(res => {
+      .then((res) => {
         setColorToEdit(res.data);
         colors.history.push("/");
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
     <div className="colors-wrap">
       <p>colors</p>
       <ul>
-        {colors.map(color => (
+        {colors.map((color) => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
               <span
                 className="delete"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   deleteColor(color);
                 }}
@@ -83,7 +83,7 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             color name:
             <input
-              onChange={e =>
+              onChange={(e) =>
                 setColorToEdit({ ...colorToEdit, color: e.target.value })
               }
               value={colorToEdit.color}
@@ -92,10 +92,10 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             hex code:
             <input
-              onChange={e =>
+              onChange={(e) =>
                 setColorToEdit({
                   ...colorToEdit,
-                  code: { hex: e.target.value }
+                  code: { hex: e.target.value },
                 })
               }
               value={colorToEdit.code.hex}
